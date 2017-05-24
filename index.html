@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>1. Line Chart</title>
+<style>
+	.container {
+		width: 80%;
+		margin: 15px auto;
+	}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js'></script>
+
+<script type="text/javascript">	
+	// HTML DOM Tree need to be loaded before running this script
+	$(document).ready(function() {
+		// Retrive (JSON) data 
+		$.getJSON("/chart", function(data) {
+			// JSON data retrived from server
+			var db = [];
+
+			// Add some format for the chart 
+			$.each(data, function(key, val) {
+				/*if (val.label == 'apples')
+					val.backgroundColor = "rgba(153,255,51,0.6)";
+				if (val.label == 'oranges')
+					val.backgroundColor = "rgba(255,153,0,0.6)";*/
+				db.push(val);
+			});
+
+			// Draw the chart
+			var ctx = document.getElementById('myChart').getContext('2d');
+			var myChart = new Chart(ctx, {
+			  type: 'line',
+			  data: {
+			    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+			    datasets: db		// Data retrive via JSON
+			  }
+			});
+		});
+	});
+</script>
+</head>
+
+<body>
+	<div class="container">
+		<h2>Chart.js — Line Chart Demo</h2>
+		<div>
+    		<canvas id="myChart"></canvas>
+  		</div>
+	</div>
+</body>
+</html>
