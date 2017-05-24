@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+#container {
+	min-width: 310px;
+	max-width: 800px;
+	height: 400px;
+	margin: 0 auto
+}
+</style>
+<title>Highcharts Demo</title>
+<script type="text/javascript">	
+	// HTML DOM Tree need to be loaded before running this script
+	$(document).ready(function() {
+		// Retrive (JSON) data 
+		$.getJSON("/highchart", function(data) {
+			// JSON data retrived from server
+			var db = [];
+
+			// Add some format for the chart 
+			$.each(data, function(key, val) {
+				val.data = val.data.map(Number);
+				db.push(val);
+
+			});
+
+			console.log(db);
+			Highcharts.chart('container', {
+
+			    title: {
+			        text: 'Solar Employment Growth by Sector, 2010-2016'
+			    },
+
+			    subtitle: {
+			        text: 'Source: thesolarfoundation.com'
+			    },
+
+			    yAxis: {
+			        title: {
+			            text: 'Number of Employees'
+			        }
+			    },
+			    
+			    legend: {
+			        layout: 'vertical',
+			        align: 'right',
+			        verticalAlign: 'middle'
+			    },
+
+			    plotOptions: {
+			        series: {
+			            pointStart: 2010
+			        }
+			    },
+
+			    series: db
+			});
+		});
+	});
+</script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>
+
